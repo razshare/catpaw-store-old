@@ -1,0 +1,70 @@
+{
+  "name": "catpaw/store",
+  "type": "library",
+  "description": "Reactive variables implemented through the Observable design pattern. Inspired by Svelte's stores.",
+  "homepage": "https://github.com/tncrazvan/catpaw-store",
+  "license": "MIT",
+  "keywords": [
+    "php",
+    "cli",
+    "reactive",
+    "store",
+    "catpaw"
+  ],
+  "scripts": {
+    "load": "composer dump-autoload -o",
+    "fix": [
+      "php -dxdebug.mode=off -dxdebug.start_with_request=no ./vendor/bin/php-cs-fixer fix src",
+      "php -dxdebug.mode=off -dxdebug.start_with_request=no ./vendor/bin/php-cs-fixer fix tests"
+    ],
+    "action:test": [
+      "php -dxdebug.mode=off -dxdebug.start_with_request=no vendor/bin/phpunit ./tests"
+    ],
+    "test": [
+      "php -dxdebug.mode=debug -dxdebug.start_with_request=yes vendor/bin/phpunit ./tests"
+    ],
+    "build": "php -dxdebug.mode=off -dxdebug.start_with_request=no -dphar.readonly=0 ./product.phar --build-config --build",
+    "download:product": "[ ! -f product.phar ] && wget https://github.com/tncrazvan/catpaw-dev-tools/releases/download/0.4.191/product.phar || echo \"product.phar found.\n\"",
+    "edit:extensions": "@download:product && php product.phar --extensions",
+    "post-autoload-dump": [
+      "@download:product"
+    ],
+    "post-create-project-cmd": [
+      "@download:product"
+    ]
+  },
+  "authors": [
+    {
+      "name": "Razvan Tanase",
+      "email": "tangent.jotey@gmail.com",
+      "homepage": "https://github.com/tncrazvan",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "CatPaw\\Store\\": "src/lib/"
+    },
+    "files": [
+      "src/functions.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "php": "^8.1",
+    "catpaw/core": "^0.4",
+    "amphp/amp": "^2.6"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.8",
+    "phpunit/phpunit": "^9"
+  },
+  "config": {
+    "preferred-install": "dist",
+    "process-timeout": 0
+  }
+}
